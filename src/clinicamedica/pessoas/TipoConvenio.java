@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clinicamedica;
+package clinicamedica.pessoas;
 
 /**
  *
  * @author miche
  */
-public class Cidade {
-    private String cidade;
-    private String estado;
-    private String pais;
-    
+public enum TipoConvenio {
+    Particular, PlanoDeSaude;
 }

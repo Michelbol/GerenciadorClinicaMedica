@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package clinicamedica;
+package clinicamedica.pessoas;
 
+import clinicamedica.pessoas.atributos.compostos.Endereco;
+import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.util.Date;
 
 /**
