@@ -53,5 +53,10 @@ public class Telefone {
         this.prefixo = prefixo;
         this.sufixo = sufixo;
     }
+
+    @Override
+    public String toString() {
+        return "Telefone{" + "codigoPais=" + codigoPais + ", codigoEstado=" + codigoEstado + ", prefixo=" + prefixo + ", sufixo=" + sufixo + '}';
+    }
     
 }

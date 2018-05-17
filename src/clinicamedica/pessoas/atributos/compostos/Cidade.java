@@ -43,5 +43,10 @@ public class Cidade {
         this.estado = estado;
         this.pais = pais;
     }
+
+    @Override
+    public String toString() {
+        return "Cidade{" + "cidade=" + cidade + ", estado=" + estado + ", pais=" + pais + '}';
+    }
     
 }

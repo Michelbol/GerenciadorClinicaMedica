@@ -5,10 +5,15 @@
  */
 package clinicamedica.pessoas;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 /**
  *
  * @author miche
  */
 public enum TipoUsuario {
     Medico, Secretaria;
+
+    
 }

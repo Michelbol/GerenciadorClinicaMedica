@@ -53,5 +53,10 @@ public class Endereco {
         this.numero = numero;
         this.bairro = bairro;
     }
+
+    @Override
+    public String toString() {
+        return "Endereco{" + "cidade=" + cidade + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + '}';
+    }
     
 }

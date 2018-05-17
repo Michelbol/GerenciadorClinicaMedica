@@ -8,6 +8,8 @@ package clinicamedica.pessoas;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  *
@@ -104,4 +106,7 @@ public class Paciente extends Pessoa{
         return "Paciente{" + "tipoconvenio=" + tipoconvenio + ", isFumante=" + isFumante + ", isAlcolico=" + isAlcolico + ", colesterol=" + colesterol + ", isDiabetico=" + isDiabetico + ", doencasCardiacas=" + doencasCardiacas + ", cirurgias=" + cirurgias + ", alergias=" + alergias + '}';
     }
 
+    public Paciente() {
+    }
+    
 }
