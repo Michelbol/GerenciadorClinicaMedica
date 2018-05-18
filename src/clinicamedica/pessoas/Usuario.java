@@ -9,8 +9,10 @@ import clinicamedica.ClinicaMedica;
 import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -79,7 +81,7 @@ public class Usuario extends Pessoa{
         return usuarios;
     }
     
-    public Usuario logar(){
+    public void logar(){
         Usuario usuarioLogado = new Usuario();
         List<Usuario> usuarios = this.povoarUsuarios();
         int opcao;
@@ -102,9 +104,8 @@ public class Usuario extends Pessoa{
             }catch(Exception e){
                 System.out.println("Erro não esperado: " + e);
             }
-            ClinicaMedica.limpatela();
         }
-        return usuarioLogado;
+        this.menu();
     } 
     
     public void menuSecretaria(){
@@ -145,7 +146,6 @@ public class Usuario extends Pessoa{
             }catch(Exception e){
                 System.out.println("Erro não esperado: " + e);
             }
-            ClinicaMedica.limpatela();
         }
     }
     
@@ -192,11 +192,14 @@ public class Usuario extends Pessoa{
             }catch(Exception e){
                 System.out.println("Erro não esperado: " + e);
             }
-            ClinicaMedica.limpatela();
         }
     }
     
     public void cadastrarPaciente(){
+        boolean sair = false;
+        int opcao = 0;
+        while(!sair){
+            
         try{
             System.out.println("=====================================");
             System.out.println("Estamos em Cadastrar Paciente, preencha as informações abaixo e após isso escolha a opção '18 - Salavar' para gravarmos o Paciente");
@@ -219,15 +222,20 @@ public class Usuario extends Pessoa{
                 System.out.println("16 - Cirurgias");
                 System.out.println("17 - Alergias");
             }
-        System.out.println("18 - Salvar");
+            System.out.println("18 - Salvar");
+            System.out.println("19 - Cancelar");
+            Scanner lerOpcao = new Scanner(System.in);
+            opcao = lerOpcao.nextInt();
+            salvarAtributo(opcao);
         }catch(IndexOutOfBoundsException | InputMismatchException e){
-                System.out.println("========================================================");
-                System.out.println("Você não digitou um das opções acima!");
-                System.out.println("========================================================");
-//            escolhaValida = false;
+                    System.out.println("========================================================");
+                    System.out.println("Você não digitou um das opções acima!");
+                    System.out.println("========================================================");
+    //            escolhaValida = false;
         }catch(Exception e){
-            System.out.println("Erro não esperado: " + e);
-//            escolhaValida = false;
+                System.out.println("Erro não esperado: " + e);
+    //            escolhaValida = false;
+        }
         }
     }
     
@@ -237,5 +245,61 @@ public class Usuario extends Pessoa{
     
     public void relatoriosConsultas(){
         System.out.println("Não implementado");
+    }
+    
+    public void salvarAtributo(int i){
+        Paciente p = new Paciente();
+        Scanner lerOpcao = new Scanner(System.in);
+        switch (i) {
+            case 1:
+                System.out.println("========================================================");
+                System.out.println("Digite o nome:");
+                System.out.println("========================================================");
+                p.setNome(lerOpcao.next());
+                break;
+            case 2:
+                System.out.println("========================================================");
+                System.out.println("Digite o sobrenome:");
+                System.out.println("========================================================");
+                p.setSobrenome(lerOpcao.next());
+                break;
+            case 3:
+                System.out.println("========================================================");
+                System.out.println("Digite o cpf:");
+                System.out.println("========================================================");
+                p.setCpf(lerOpcao.next());
+                break;           
+            case 4:
+                System.out.println("========================================================");
+                System.out.println("Digite o rg:");
+                System.out.println("========================================================");
+                p.setRg(lerOpcao.next());
+                break;
+            case 5:
+                System.out.println("========================================================");
+                System.out.println("Digite a data de nascimento('utilize dd/mm/yyy'):");
+                System.out.println("========================================================");
+                String data = lerOpcao.next();
+                p.setDataNascimento(stringToDate(data));
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                System.out.println(sdf.format(p.getDataNascimento()));
+                break;
+        }
+    }
+    
+    public Date stringToDate(String data){
+        String[] g = data.split("/");
+        int dia = Integer.parseInt(g[0]);
+        int mes = Integer.parseInt(g[1])-1;
+        int ano = Integer.parseInt(g[2]);
+        if(ano > 99){
+            ano = ano - 1900;
+        }
+        if(ano < 50){
+            ano = ano + 2000;
+        }
+        Date dt = new Date(ano, mes, dia);
+        System.out.println(dt.toString());
+        return dt;
     }
 }

@@ -7,6 +7,7 @@ package clinicamedica.pessoas;
 
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
