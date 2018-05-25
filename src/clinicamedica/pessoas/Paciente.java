@@ -8,8 +8,6 @@ package clinicamedica.pessoas;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  *
@@ -18,8 +16,8 @@ import java.util.Scanner;
 public class Paciente extends Pessoa{
     private TipoConvenio tipoconvenio;
     private boolean isFumante;
-    private boolean isAlcolico;
-    private String colesterol;
+    private boolean isAlcolatra;
+    private boolean isColesterol;
     private boolean isDiabetico;
     private String doencasCardiacas;
     private String cirurgias;
@@ -41,20 +39,20 @@ public class Paciente extends Pessoa{
         this.isFumante = isFumante;
     }
 
-    public boolean isIsAlcolico() {
-        return isAlcolico;
+    public boolean isIsAlcolatra() {
+        return isAlcolatra;
     }
 
-    public void setIsAlcolico(boolean isAlcolico) {
-        this.isAlcolico = isAlcolico;
+    public void setIsAlcolatra(boolean isAlcolatra) {
+        this.isAlcolatra = isAlcolatra;
     }
 
-    public String getColesterol() {
-        return colesterol;
+    public boolean getColesterol() {
+        return isColesterol;
     }
 
-    public void setColesterol(String colesterol) {
-        this.colesterol = colesterol;
+    public void setIsColesterol(boolean isColesterol) {
+        this.isColesterol = isColesterol;
     }
 
     public boolean isIsDiabetico() {
@@ -89,12 +87,12 @@ public class Paciente extends Pessoa{
         this.alergias = alergias;
     }
 
-    public Paciente(TipoConvenio tipoconvenio, boolean isFumante, boolean isAlcolico, String colesterol, boolean isDiabetico, String doencasCardiacas, String cirurgias, String alergias, String nome, String sobrenome, String cpf, String rg, Date dataNascimento, Endereco endereco, Telefone residencial, Telefone celular, String email) {
+    public Paciente(TipoConvenio tipoconvenio, boolean isFumante, boolean isAlcolico, boolean colesterol, boolean isDiabetico, String doencasCardiacas, String cirurgias, String alergias, String nome, String sobrenome, String cpf, String rg, Date dataNascimento, Endereco endereco, Telefone residencial, Telefone celular, String email) {
         super(nome, sobrenome, cpf, rg, dataNascimento, endereco, residencial, celular, email);
         this.tipoconvenio = tipoconvenio;
         this.isFumante = isFumante;
-        this.isAlcolico = isAlcolico;
-        this.colesterol = colesterol;
+        this.isAlcolatra = isAlcolico;
+        this.isColesterol = colesterol;
         this.isDiabetico = isDiabetico;
         this.doencasCardiacas = doencasCardiacas;
         this.cirurgias = cirurgias;
@@ -103,7 +101,7 @@ public class Paciente extends Pessoa{
 
     @Override
     public String toString() {
-        return "Paciente{" + "tipoconvenio=" + tipoconvenio + ", isFumante=" + isFumante + ", isAlcolico=" + isAlcolico + ", colesterol=" + colesterol + ", isDiabetico=" + isDiabetico + ", doencasCardiacas=" + doencasCardiacas + ", cirurgias=" + cirurgias + ", alergias=" + alergias + '}';
+        return "Paciente{" + "tipoconvenio=" + tipoconvenio + ", isFumante=" + isFumante + ", isAlcolico=" + isAlcolatra + ", colesterol=" + isColesterol + ", isDiabetico=" + isDiabetico + ", doencasCardiacas=" + doencasCardiacas + ", cirurgias=" + cirurgias + ", alergias=" + alergias + ", Pessoa: " +super.toString()+'}';
     }
 
     public Paciente() {

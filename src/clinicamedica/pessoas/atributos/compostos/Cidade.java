@@ -14,6 +14,9 @@ public class Cidade {
     private String estado;
     private String pais;
 
+    public Cidade() {
+    }
+    
     public String getCidade() {
         return cidade;
     }

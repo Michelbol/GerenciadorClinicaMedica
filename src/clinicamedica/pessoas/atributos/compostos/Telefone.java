@@ -15,6 +15,9 @@ public class Telefone {
     private String prefixo;
     private String sufixo;
 
+    public Telefone() {
+    }
+
     public String getCodigoPais() {
         return codigoPais;
     }
@@ -59,4 +62,24 @@ public class Telefone {
         return "Telefone{" + "codigoPais=" + codigoPais + ", codigoEstado=" + codigoEstado + ", prefixo=" + prefixo + ", sufixo=" + sufixo + '}';
     }
     
+    
+    public Telefone StringToTelefone(String t){
+        Telefone te = new Telefone();
+        if(t.contains("+")){
+            int posicao = t.indexOf("+");
+            te.setCodigoPais(t.substring(posicao+1, posicao+3));
+        }else{
+            te.setCodigoEstado("55");
+        }
+        if(t.contains("(")){
+            int posicao = t.indexOf("(");
+            te.setCodigoEstado(t.substring(posicao+1, posicao+3));
+        }
+        if(t.contains("-")){
+            int posicao = t.indexOf("-");
+            te.setPrefixo(t.substring(posicao-4, posicao));
+            te.setSufixo(t.substring(posicao+1, posicao+5));
+        }        
+        return te;
+    }
 }

@@ -11,9 +11,12 @@ package clinicamedica.pessoas.atributos.compostos;
  */
 public class Endereco {
     private Cidade cidade;
-    private String endereco;
+    private String logradouro;
     private String numero;
     private String bairro;
+
+    public Endereco() {
+    }
 
     public Cidade getCidade() {
         return cidade;
@@ -23,12 +26,12 @@ public class Endereco {
         this.cidade = cidade;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getNumero() {
@@ -49,14 +52,14 @@ public class Endereco {
 
     public Endereco(Cidade cidade, String endereco, String numero, String bairro) {
         this.cidade = cidade;
-        this.endereco = endereco;
+        this.logradouro = endereco;
         this.numero = numero;
         this.bairro = bairro;
     }
 
     @Override
     public String toString() {
-        return "Endereco{" + "cidade=" + cidade + ", endereco=" + endereco + ", numero=" + numero + ", bairro=" + bairro + '}';
+        return "Endereco{" + "cidade=" + cidade + ", endereco=" + logradouro + ", numero=" + numero + ", bairro=" + bairro + '}';
     }
     
 }
