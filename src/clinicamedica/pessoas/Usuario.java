@@ -5,17 +5,12 @@
  */
 package clinicamedica.pessoas;
 
-import clinicamedica.ClinicaMedica;
 import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  *

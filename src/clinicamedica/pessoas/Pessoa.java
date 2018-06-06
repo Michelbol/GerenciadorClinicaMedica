@@ -5,10 +5,13 @@
  */
 package clinicamedica.pessoas;
 
+import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -116,5 +119,4 @@ public class Pessoa {
 
     public Pessoa() {
     }  
-    
 }
