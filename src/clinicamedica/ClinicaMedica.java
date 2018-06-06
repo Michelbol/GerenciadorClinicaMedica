@@ -21,18 +21,19 @@ public class ClinicaMedica {
 
     static List<Paciente> lista_pacientes = new ArrayList();
     static List<Consulta> lista_consultas = new ArrayList();
+    static List<Usuario> usuarios = new ArrayList();
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        logar();
+        lista_pacientes = new Paciente().povoarPacientes();
+        usuarios = new Usuario().povoarUsuarios();
+        logar(usuarios);
     }
 
-    public static void logar() {
-        Usuario usuarioLogado = new Usuario();
-        List<Usuario> usuarios = usuarioLogado.povoarUsuarios();
-        lista_pacientes = new Paciente().povoarPacientes();
+    public static void logar(List<Usuario> usuarios) {
+        Usuario usuarioLogado = new Usuario(); 
         int opcao;
         while (usuarioLogado.getId() <= 0) {
             try {
@@ -54,6 +55,6 @@ public class ClinicaMedica {
                 System.out.println("Erro não esperado: " + e);
             }
         }
-        usuarioLogado.getTipo().menu(lista_pacientes, lista_consultas);
+        usuarioLogado.getTipo().menu(lista_pacientes, lista_consultas, usuarios);
     }    
 }

@@ -22,7 +22,7 @@ import java.util.Scanner;
 public enum TipoUsuario implements menu{
     Medico{
         @Override
-        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas) {
+        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios) {
             boolean sair = false;
             int opcao = 0;
             while (!sair) {
@@ -44,7 +44,7 @@ public enum TipoUsuario implements menu{
                                 menuPaciente(lista_pacientes);
                                 break;
                             case 2:
-                                menuConsulta(lista_consultas);
+//                                menuProntuario(lista_consultas);
                                 break;
                             case 3:
                                 relatoriosConsultas();
@@ -511,7 +511,7 @@ public enum TipoUsuario implements menu{
       
     }, Secretaria{
         @Override
-        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas) {
+        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios) {
             boolean sair = false;
         int opcao = 0;
         while (!sair) {
@@ -533,7 +533,7 @@ public enum TipoUsuario implements menu{
                             menuPaciente(lista_pacientes);
                             break;
                         case 2:
-                            menuConsulta(lista_consultas);
+                            new Consulta().menuConsulta(lista_consultas, lista_usuarios);
                             break;
                         case 3:
                             relatoriosConsultas();
@@ -599,7 +599,7 @@ public enum TipoUsuario implements menu{
             while (!sair) {
                 try {
                     System.out.println("=====================================");
-                    System.out.println("Estamos em Cadastrar Paciente, preencha as informações abaixo e após isso escolha a opção '18 - Salavar' para gravarmos o Paciente");
+                    System.out.println("Estamos em Cadastrar Paciente, preencha as informações abaixo e após isso escolha a opção '11 - Salavar' para gravarmos o Paciente");
                     System.out.println("01 - Nome");
                     System.out.println("02 - Sobrenome");
                     System.out.println("03 - Cpf");
@@ -929,10 +929,6 @@ public enum TipoUsuario implements menu{
                 System.out.println("========================================================");
             }
         }
-    }
-
-    public void menuConsulta(List<Consulta> lista_consultas) {
-        System.out.println("Não implementado");
     }
 
     public void relatoriosConsultas() {
