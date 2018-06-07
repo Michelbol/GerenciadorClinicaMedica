@@ -73,6 +73,19 @@ public class Usuario extends Pessoa{
         u.setEmail("joao_ra8899@gmail.com");
         u.setEndereco(new Endereco(new Cidade("Londrina", "PR", "Brasil"), "Av Brasil", "3256", "Zona 07"));
         usuarios.add(u);
+        u = new Usuario();
+        u.setId(3);
+        u.setNome("João");
+        u.setSobrenome("da Paraiba");
+        u.setResidencial(new Telefone("55", "44", "30223", "5200"));
+        u.setRg("7.778.879-53");
+        u.setTipo(TipoUsuario.Medico);
+        u.setCelular(new Telefone("55", "44", "99966", "6655"));
+        u.setCpf("123.328.345-12");
+        u.setDataNascimento(new Date("14/07/1980"));
+        u.setEmail("joão_ra8899@gmail.com");
+        u.setEndereco(new Endereco(new Cidade("Curitiba", "PR", "Brasil"), "Av paraná", "464", "Zona 03"));
+        usuarios.add(u);
         return usuarios;
     }
 }

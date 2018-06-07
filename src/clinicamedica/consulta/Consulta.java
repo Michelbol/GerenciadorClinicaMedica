@@ -6,8 +6,13 @@
 package clinicamedica.consulta;
 
 import clinicamedica.pessoas.Paciente;
+import clinicamedica.pessoas.TipoConvenio;
 import clinicamedica.pessoas.TipoUsuario;
 import clinicamedica.pessoas.Usuario;
+import clinicamedica.pessoas.atributos.compostos.Cidade;
+import clinicamedica.pessoas.atributos.compostos.Endereco;
+import clinicamedica.pessoas.atributos.compostos.Telefone;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -70,8 +75,7 @@ public class Consulta {
         return "Consulta{" + "dataHora=" + dataHora + ", medico=" + medico + ", paciente=" + paciente + ", tipo=" + tipo + '}';
     }
     
-    
-    public void menuConsulta(List<Consulta> lista_consultas, List<Usuario> lista_usuarios){
+    public void menuConsulta(List<Consulta> lista_consultas, List<Usuario> lista_usuarios, List<Paciente> lista_pacientes){
         boolean sair = false;
             int opcao = 0;
             while (!sair) {
@@ -90,9 +94,9 @@ public class Consulta {
                     }
                     if (opcao < 4 && opcao > 0) {
                         if (opcao == 1) {
-                            lista_consultas.add(menuMarcarConsulta(lista_usuarios));
+                            lista_consultas.add(menuMarcarConsulta(lista_usuarios, lista_pacientes));
                         } else if (opcao == 2) {
-                            alterarConsulta(lista_consultas, lista_usuarios);
+                            alterarConsulta(lista_consultas, lista_usuarios, lista_pacientes);
                         } else if (opcao == 3) {
                             removerConsulta(lista_consultas);
                         }
@@ -109,7 +113,7 @@ public class Consulta {
             }
     }
     
-    public Consulta menuMarcarConsulta(List<Usuario> lista_usuarios){
+    public Consulta menuMarcarConsulta(List<Usuario> lista_usuarios, List<Paciente> lista_pacientes){
         boolean sair = false;
             int opcao = 0;
             Consulta c = new Consulta();
@@ -119,17 +123,18 @@ public class Consulta {
                     System.out.println("Estamos em Marcar Consulta, preencha as informações abaixo e após isso escolha a opção '04 - Salvar' para salvarmos a Consulta");
                     System.out.println("01 - Data/Hora");
                     System.out.println("02 - Médico");
-                    System.out.println("03 - Tempo Duração");
-                    System.out.println("04 - Salvar");
-                    System.out.println("05 - Cancelar");
+                    System.out.println("03 - Paciente");
+                    System.out.println("04 - Tempo Duração");
+                    System.out.println("05 - Salvar");
+                    System.out.println("06 - Cancelar");
                     Scanner lerOpcao = new Scanner(System.in);
                         opcao = lerOpcao.nextInt();
-                        if (opcao == 5) {
+                        if (opcao == 6) {
                             return null;
                         }
-                        c = menuSalvarAtributo(opcao, c, lista_usuarios);
+                        c = menuSalvarAtributo(opcao, c, lista_usuarios, lista_pacientes);
                         System.out.println("p:" + c.toString());
-                        if (opcao == 4) {
+                        if (opcao == 5) {
                             return c;
                         }
                     } catch (IndexOutOfBoundsException | InputMismatchException e) {
@@ -144,15 +149,147 @@ public class Consulta {
             return null;
     }
     
-    public void alterarConsulta(List<Consulta> lista_consultas, List<Usuario> lista_usuarios){
-        
+    public void alterarConsulta(List<Consulta> lista_consultas, List<Usuario> lista_usuarios, List<Paciente> lista_pacientes){
+        boolean sair = false;
+        String opcao = "";
+        while (!sair) {
+            try {
+                System.out.println("=====================================");
+                System.out.println("Estamos em 'Alterar Consulta Médica', digite o número da consulta que você deseja alterar");
+                System.out.println("Ou digite 'Sair' para sair");
+                int i = 0;
+                for (Consulta c : lista_consultas) {
+                    System.out.println("Numero: " + i + " Horário Consulta: " + c.getDataHora()+" Médico: "+ c.getMedico().getNome()+" Paciente: "+c.getPaciente().getNome());
+                    i += 1;
+                }
+                Scanner lerOpcao = new Scanner(System.in);
+                opcao = lerOpcao.nextLine();
+                if (opcao.equals("Sair")) {
+                    sair = true;
+                } else {
+                    menuAlteracoesConsulta(lista_consultas.get(Integer.parseInt(opcao)), lista_usuarios, lista_pacientes);
+                }
+            } catch (IndexOutOfBoundsException | InputMismatchException | NumberFormatException e) {
+                System.out.println("========================================================");
+                System.out.println("Você não digitou um das opções acima!");
+                System.out.println("========================================================");
+            }
+        }
+    }
+    
+    public Consulta menuAlteracoesConsulta(Consulta c, List<Usuario> lista_usuarios, List<Paciente> lista_pacientes){
+        boolean sair = false;
+            int opcao = 0;            
+            while (!sair) {
+                try {
+                    System.out.println("=====================================");
+                    System.out.println("Estamos em Alterações de Consultas Médicas, altere as informações que deseja e após isso escolha a opção '05 - Salvar' para gravarmos o Consulta");
+                    System.out.println("01 - Data/Hora");
+                    System.out.println("02 - Medico");
+                    System.out.println("03 - Paciente");
+                    System.out.println("04 - Tipo");
+                    System.out.println("05 - Salvar");
+                    System.out.println("06 - Cancelar");
+                    Scanner lerOpcao = new Scanner(System.in);
+                    opcao = lerOpcao.nextInt();
+                    Consulta con = menuAtualizarAtributo(opcao, c, lista_usuarios, lista_pacientes);
+                    if (opcao == 06) {
+                        return null;
+                    }
+                    if (opcao == 05) {
+                        return con;
+                    }
+                } catch (IndexOutOfBoundsException | InputMismatchException e) {
+                    System.out.println("========================================================");
+                    System.out.println("Você não digitou um das opções acima!");
+                    System.out.println("========================================================");
+                } catch (Exception e) {
+                    System.out.println("Erro não esperado: " + e);
+                    return null;
+                }
+            }
+            return null;
+    }
+    
+    public Consulta menuAtualizarAtributo(int i, Consulta c, List<Usuario> lista_usuarios, List<Paciente> lista_pacientes){
+        Scanner lerOpcao = new Scanner(System.in);
+        switch (i) {
+            case 1:
+                    System.out.println("========================================================");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    System.out.println("A data anterior é: " + sdf.format(c.getDataHora()));
+                    System.out.println("Digite a Data e Hora da Consulta: dd/mm/yyyy HH:mm");
+                    System.out.println("========================================================");
+                    String data = lerOpcao.nextLine();
+                    c.setDataHora(stringToDateTime(data));
+                    break;
+                case 2:
+                    System.out.println("========================================================");
+                    System.out.println("O médico anterior: " + c.getMedico());
+                    System.out.println("Digite o numero do médico para seleciona-lo");
+                    int aux = 0;
+                    for(Usuario u : lista_usuarios){
+                        if(u.getTipo() == TipoUsuario.Medico){ 
+                            System.out.println("Numero: "+aux+" Nome: "+u.getNome());
+                        }
+                        aux++;
+                    }
+                    System.out.println("========================================================");
+                    c.setMedico(lista_usuarios.get(lerOpcao.nextInt()));
+                    break;
+                case 3:
+                    System.out.println("========================================================");
+                    System.out.println("O paciente anterior: " + c.getPaciente());
+                    System.out.println("Digite o numero do médico para seleciona-lo");
+                    int cont = 0;
+                    for(Paciente p : lista_pacientes){
+                            System.out.println("Numero: "+cont+" Nome: "+p.getNome());
+                            cont++;
+                    }
+                    System.out.println("========================================================");
+                    c.setPaciente(lista_pacientes.get(lerOpcao.nextInt()));
+                    break;
+                case 4:
+                    System.out.println("========================================================");
+                    System.out.println("o tipo anterior da consulta é: " + c.getTipo());
+                    System.out.println("Tipo da Consulta digite 1 - Normal ou 2 - Retorno");
+                    System.out.println("========================================================");
+                    int tipoConsulta = lerOpcao.nextInt();
+                    c.setTipo((tipoConsulta == 1) ? TipoConsulta.Normal : TipoConsulta.Retorno);
+                    break;
+        }
+        return c;
     }
     
     public void removerConsulta(List<Consulta> lista_consultas){
-        
+        boolean sair = false;
+        String opcao = "";
+        while (!sair) {
+            try {
+                System.out.println("=====================================");
+                System.out.println("Estamos em 'Alterar Consulta Médica', digite o número da consulta que você deseja alterar");
+                System.out.println("Ou digite 'Sair' para sair");
+                int i = 0;
+                for (Consulta c : lista_consultas) {
+                    System.out.println("Numero: " + i + " Horário Consulta: " + c.getDataHora()+" Médico: "+ c.getMedico().getNome()+" Paciente: "+c.getPaciente().getNome());
+                    i += 1;
+                }
+                Scanner lerOpcao = new Scanner(System.in);
+                opcao = lerOpcao.nextLine();
+                if (opcao.equals("Sair")) {
+                    sair = true;
+                } else {
+                    lista_consultas.remove(Integer.parseInt(opcao));
+                }
+            } catch (IndexOutOfBoundsException | InputMismatchException | NumberFormatException e) {
+                System.out.println("========================================================");
+                System.out.println("Você não digitou um das opções acima!");
+                System.out.println("========================================================");
+            }
+        }
     }
     
-    public Consulta menuSalvarAtributo(int i, Consulta c, List<Usuario> lista_usuarios) {
+    public Consulta menuSalvarAtributo(int i, Consulta c, List<Usuario> lista_usuarios, List<Paciente> lista_pacientes) {
             Scanner lerOpcao = new Scanner(System.in);
             switch (i) {
                 case 1:
@@ -166,15 +303,29 @@ public class Consulta {
                     System.out.println("========================================================");
                     System.out.println("Escolha o médico:");
                     System.out.println("Digite o numero do médico para seleciona-lo");
+                    int aux = 0;
                     for(Usuario u : lista_usuarios){
                         if(u.getTipo() == TipoUsuario.Medico){
-                            System.out.println("Numero: "+u.getId()+" Nome: "+u.getNome());
+                            System.out.println("Numero: "+aux+" Nome: "+u.getNome());
                         }
+                        aux +=1;
                     }
                     System.out.println("========================================================");
                     c.setMedico(lista_usuarios.get(lerOpcao.nextInt()));
                     break;
                 case 3:
+                    System.out.println("========================================================");
+                    System.out.println("Escolha o Paciente:");
+                    System.out.println("Digite o numero do paciente para seleciona-lo");
+                    int aux1 = 0;
+                    for(Paciente p : lista_pacientes){
+                        System.out.println("Numero: "+aux1+" Nome: "+p.getNome());
+                        aux1 +=1;
+                    }
+                    System.out.println("========================================================");
+                    c.setPaciente(lista_pacientes.get(lerOpcao.nextInt()));
+                    break;
+                case 4:
                     System.out.println("========================================================");
                     System.out.println("Tipo da Consulta digite 1 - Normal ou 2 - Retorno");
                     System.out.println("========================================================");

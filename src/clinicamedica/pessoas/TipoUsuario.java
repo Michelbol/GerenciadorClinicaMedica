@@ -10,6 +10,7 @@ import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -47,7 +48,7 @@ public enum TipoUsuario implements menu{
 //                                menuProntuario(lista_consultas);
                                 break;
                             case 3:
-                                relatoriosConsultas();
+                                relatoriosConsultas(lista_consultas);
                                 break;
                         }
                     } else {
@@ -519,8 +520,8 @@ public enum TipoUsuario implements menu{
                 Scanner lerOpcao = new Scanner(System.in);
                 System.out.println("O que deseja fazer?\n");
                 System.out.println("01 - Cadastro de Pacientes");
-                System.out.println("02 - Cadastro de Consultas");
-                System.out.println("03 - Relatórios de Consultas");
+                System.out.println("02 - Cadastro de Consultas Médicas");
+                System.out.println("03 - Relatórios de Consultas Médicas");
                 System.out.println("04 - Sair do Sistema");
                 opcao = lerOpcao.nextInt();
                 if (opcao == 4) {
@@ -533,10 +534,10 @@ public enum TipoUsuario implements menu{
                             menuPaciente(lista_pacientes);
                             break;
                         case 2:
-                            new Consulta().menuConsulta(lista_consultas, lista_usuarios);
+                            new Consulta().menuConsulta(lista_consultas, lista_usuarios, lista_pacientes);
                             break;
                         case 3:
-                            relatoriosConsultas();
+                            relatoriosConsultas(lista_consultas);
                             break;
                     }
                 } else {
@@ -641,7 +642,7 @@ public enum TipoUsuario implements menu{
             while (!sair) {
                 try {
                     System.out.println("=====================================");
-                    System.out.println("Estamos em Alterações de Pacientes, altere as informações que deseja e após isso escolha a opção '18 - Salvar' para gravarmos o Paciente");
+                    System.out.println("Estamos em Alterações de Pacientes, altere as informações que deseja e após isso escolha a opção '11 - Salvar' para gravarmos o Paciente");
                     System.out.println("01 - Nome");
                     System.out.println("02 - Sobrenome");
                     System.out.println("03 - Cpf");
@@ -931,8 +932,29 @@ public enum TipoUsuario implements menu{
         }
     }
 
-    public void relatoriosConsultas() {
-        System.out.println("Não implementado");
+    public void relatoriosConsultas(List<Consulta> lista_consultas) {
+        Scanner lerOpcao = new Scanner(System.in);
+        System.out.println("========================================================");
+        System.out.println("Deseja que apareça as consultas cujo Paciente tem E-mail?");
+        System.out.println("1 - Sim ou 2 - Não");
+        System.out.println("========================================================");
+        int email = lerOpcao.nextInt();
+        System.out.println("========================================================");
+        System.out.println("Deseja que apareça as consultas cujo Paciente tem Celular?");
+        System.out.println("1 - Sim ou 2 - Não");
+        System.out.println("========================================================");
+        int celular = lerOpcao.nextInt();
+        
+        System.out.println("=================Inicio Relatório================================Inicio Relatório=================================Inicio Relatório================================================================");
+        int i = 0;
+        for (Consulta c : lista_consultas) {
+            System.out.println(c.getDataHora() +" "+ Date.from(Instant.MIN));
+            if((c.getDataHora() == Date.from(Instant.MIN)) && ((email == 1) ? ((c.getPaciente().getCelular().preenchido()) ? true : false) : true)){
+                System.out.println("Numero: " + i + "| Horário Consulta: " + c.getDataHora()+"| Médico: "+ c.getMedico().getNome()+"| Paciente: "+c.getPaciente().getNome());
+            }
+            i += 1;
+        }
+        System.out.println("=================Fim Relatório===================================Fim Relatório====================================Fim Relatório===================================================================");
     }
     
     public static boolean removerPaciente(List<Paciente> lista_pacientes) {

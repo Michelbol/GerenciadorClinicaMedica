@@ -82,4 +82,9 @@ public class Telefone {
         }        
         return te;
     }
+    public boolean preenchido(){
+        String telefone;
+        
+        return true;
+    }
 }
