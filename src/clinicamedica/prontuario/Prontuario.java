@@ -30,8 +30,8 @@ public class Prontuario {
         this.paciente = paciente;
     }
     
-    public Paciente getMedico() {
-        return paciente;
+    public Usuario getMedico() {
+        return medico;
     }
 
     public void setMedico(Usuario medico) {
@@ -94,7 +94,7 @@ public class Prontuario {
                      return null;
                 }
                 if (opcao == 5) {
-                    prontuario.setMedico(usuarioLogado);
+                    if ("Cadastrar".equals(acao)) prontuario.setMedico(usuarioLogado);
                     return prontuario;
                 }
             } catch (IndexOutOfBoundsException | InputMismatchException e) {
@@ -200,6 +200,111 @@ public class Prontuario {
                 System.out.println("========================================================");
             }
         }
+    }
+    
+    public static void menuRelatorioProntuario(List<Prontuario> lista_prontuario){
+        boolean sair = false;
+        int opcao = 0;
+        while (!sair) {
+            try {
+                Scanner lerOpcao = new Scanner(System.in);
+                System.out.println("Qual relatório você deseja gerar: \n");
+                System.out.println("01 - Receita");
+                System.out.println("02 - Atestado");
+                System.out.println("03 - Declaração de Acompanhamento");
+                System.out.println("04 - Voltar para Menu do Médico");
+                opcao = lerOpcao.nextInt();
+                if (opcao == 4) {
+                    sair = true;
+                    break;
+                }
+                if (opcao > 0 && opcao <= 3) {
+                    switch (opcao) {
+                        case 1:
+                            Prontuario.menuEscolherProntuarioRelatorio(lista_prontuario,"Receita");
+                            break;
+                        case 2:
+                            Prontuario.menuEscolherProntuarioRelatorio(lista_prontuario,"Atestado");
+                            break;
+                        case 3:
+                            Prontuario.menuEscolherProntuarioRelatorio(lista_prontuario,"Acompanhamento");                              
+                            break;
+                    }
+                } else {
+                    throw new IndexOutOfBoundsException();
+                }
+            } catch (IndexOutOfBoundsException | InputMismatchException e) {
+                System.out.println("========================================================");
+                System.out.println("Você não digitou um das opções!");
+                System.out.println("========================================================");
+            } catch (Exception e) {
+                System.out.println("Erro não esperado: " + e);
+            }
+        }
+    }
+    
+    public static void menuEscolherProntuarioRelatorio(List<Prontuario> lista_prontuario, String tipo){
+        boolean sair = false;
+        String tempo = "";
+        String opcao = "";
+        while (!sair) {
+            try {
+                System.out.println("=====================================");
+                System.out.println("Estamos em 'Gerar " + tipo + "', digite o número do prontuario que você deseja gerar " + tipo);
+                System.out.println("Ou digite 'Sair' para sair");
+                int i = 0;
+                for (Prontuario prontuario : lista_prontuario) {
+                    System.out.println(i+1 + " - " + prontuario.toString());
+                    i++;
+                }
+                Scanner lerOpcao = new Scanner(System.in);
+                opcao = lerOpcao.nextLine();
+                if (opcao.toLowerCase().equals("sair")) {
+                    sair = true;
+                } else {
+                    if ("Atestado".equals(tipo)){
+                        System.out.println("========================================================");
+                        System.out.println("Digite o tempo do atestado com a unidade de medida:");
+                        System.out.println("========================================================");
+                        tempo = lerOpcao.nextLine();
+                    }
+                    gerarRelatorio(lista_prontuario.get(Integer.parseInt(opcao)-1),tipo,tempo);
+                }
+            } catch (IndexOutOfBoundsException | InputMismatchException | NumberFormatException e) {
+                System.out.println("========================================================");
+                System.out.println("Você não digitou um das opções acima!");
+                System.out.println("========================================================");
+            }
+        }
+    }
+    
+    public static void gerarRelatorio (Prontuario prontuario,String tipo, String tempo){
+        if ("Receita".equals(tipo)){
+            System.out.println("========================================================");
+            System.out.println("======================= Receita ========================");
+            System.out.println("========================================================");
+            System.out.println("Paciente.........: " + prontuario.getPaciente().getNome());
+            System.out.println("Prescrição Medica: " + prontuario.getPrescricao());
+            System.out.println("Medico...........: " + prontuario.getMedico().getNome());
+            System.out.println("========================================================");    
+        }
+        if ("Atestado".equals(tipo)){
+            System.out.println("========================================================");
+            System.out.println("======================= Atestado ========================");
+            System.out.println("========================================================");
+            System.out.println("O paciente " + prontuario.getPaciente().getNome() + " estará incapacitado durante " + (tempo.equals("")?"tempo indeterminado":tempo) + " por causa do diagnostico " + prontuario.getDiagnostico());
+            System.out.println("Assinatura Médico: " + prontuario.getMedico().getNome());
+            System.out.println("========================================================");    
+        }
+        if ("Acompanhamento".equals(tipo)){
+            System.out.println("========================================================");
+            System.out.println("============= Declaração de Acompanhamento =============");
+            System.out.println("========================================================");
+            System.out.println("O paciente " + prontuario.getPaciente().getNome() + " está sobre acompanhamento médico do diagnostico " + prontuario.getDiagnostico() + " pelo médico " + prontuario.getMedico().getNome());
+            System.out.println("========================================================");    
+        }
+        
+        
     }
 
     @Override

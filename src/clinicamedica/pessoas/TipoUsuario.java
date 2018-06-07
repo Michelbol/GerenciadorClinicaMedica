@@ -49,7 +49,45 @@ public enum TipoUsuario implements menu{
                                 menuProntuario(lista_prontuario,lista_pacientes,usuarioLogado);
                                 break;
                             case 3:
-                                relatoriosConsultas(lista_consultas);
+                                menuRelatorioMedico(lista_consultas,lista_prontuario);
+                                //relatoriosConsultas(lista_consultas);
+                                break;
+                        }
+                    } else {
+                        throw new IndexOutOfBoundsException();
+                    }
+                } catch (IndexOutOfBoundsException | InputMismatchException e) {
+                    System.out.println("========================================================");
+                    System.out.println("Você não digitou um das opções!");
+                    System.out.println("========================================================");
+                } catch (Exception e) {
+                    System.out.println("Erro não esperado: " + e);
+                }
+            }
+        }
+        
+        public void menuRelatorioMedico(List<Consulta> lista_consultas, List<Prontuario> lista_prontuario){
+            boolean sair = false;
+            int opcao = 0;
+            while (!sair) {
+                try {
+                    Scanner lerOpcao = new Scanner(System.in);
+                    System.out.println("Qual relatório você deseja consultar: \n");
+                    System.out.println("01 - Clientes Atendimentos no Mês");
+                    System.out.println("02 - Relatório de Consulta");
+                    System.out.println("03 - Voltar para Menu do Médico");
+                    opcao = lerOpcao.nextInt();
+                    if (opcao == 3) {
+                        sair = true;
+                        break;
+                    }
+                    if (opcao > 0 && opcao <= 3) {
+                        switch (opcao) {
+                            case 1:
+                                //gerarRelatorioClientesAtendidosMes(lista_consultas);
+                                break;
+                            case 2:
+                                //gerarRelatorioClientesAtendidosMes(lista_consultas);
                                 break;
                         }
                     } else {
@@ -114,18 +152,20 @@ public enum TipoUsuario implements menu{
                     System.out.println("01 - Cadastrar Prontuario");
                     System.out.println("02 - Alterar Prontuario");
                     System.out.println("03 - Remover Prontuario");
-                    System.out.println("04 - Voltar para Menu Medico");
+                    System.out.println("04 - Gerar Relatorios");
+                    System.out.println("05 - Voltar para Menu Medico");
                     Scanner lerOpcao = new Scanner(System.in);
                     opcao = lerOpcao.nextInt();
-                    if (opcao == 4) {
+                    if (opcao == 5) {
                         sair = true;
                         break;
                     }
-                    if (opcao < 4 && opcao > 0) {
+                    if (opcao < 5 && opcao > 0) {
                         switch (opcao) {
                             case 1: li_prontuario.add(Prontuario.menuCadastrarProntuario("Cadastrar",new Prontuario(),li_paciente,usuarioLogado)); break;
                             case 2: Prontuario.alterarProntuario(li_prontuario,li_paciente,usuarioLogado); break;
                             case 3: Prontuario.removerProntuario(li_prontuario); break;
+                            case 4: Prontuario.menuRelatorioProntuario(li_prontuario); break;
                             default: throw new IndexOutOfBoundsException(); 
                         }
                     }
