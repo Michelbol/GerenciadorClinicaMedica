@@ -9,6 +9,7 @@ import clinicamedica.consulta.Consulta;
 import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
+import clinicamedica.prontuario.Prontuario;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
@@ -23,7 +24,7 @@ import java.util.Scanner;
 public enum TipoUsuario implements menu{
     Medico{
         @Override
-        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios) {
+        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios, List<Prontuario> lista_prontuario,Usuario usuarioLogado) {
             boolean sair = false;
             int opcao = 0;
             while (!sair) {
@@ -45,7 +46,7 @@ public enum TipoUsuario implements menu{
                                 menuPaciente(lista_pacientes);
                                 break;
                             case 2:
-//                                menuProntuario(lista_consultas);
+                                menuProntuario(lista_prontuario,lista_pacientes,usuarioLogado);
                                 break;
                             case 3:
                                 relatoriosConsultas(lista_consultas);
@@ -102,10 +103,45 @@ public enum TipoUsuario implements menu{
                 }
             }
         }
+        
+        public void menuProntuario(List<Prontuario> li_prontuario,List<Paciente> li_paciente,Usuario usuarioLogado){
+            boolean sair = false;
+            int opcao = 0;
+            while (!sair) {
+                try {
+                    System.out.println("=====================================");
+                    System.out.println("Estamos em 'Cadastro de Prontuario', o que deseja fazer?");
+                    System.out.println("01 - Cadastrar Prontuario");
+                    System.out.println("02 - Alterar Prontuario");
+                    System.out.println("03 - Remover Prontuario");
+                    System.out.println("04 - Voltar para Menu Medico");
+                    Scanner lerOpcao = new Scanner(System.in);
+                    opcao = lerOpcao.nextInt();
+                    if (opcao == 4) {
+                        sair = true;
+                        break;
+                    }
+                    if (opcao < 4 && opcao > 0) {
+                        switch (opcao) {
+                            case 1: li_prontuario.add(Prontuario.menuCadastrarProntuario("Cadastrar",new Prontuario(),li_paciente,usuarioLogado)); break;
+                            case 2: Prontuario.alterarProntuario(li_prontuario,li_paciente,usuarioLogado); break;
+                            case 3: Prontuario.removerProntuario(li_prontuario); break;
+                            default: throw new IndexOutOfBoundsException(); 
+                        }
+                    }
+                } catch (IndexOutOfBoundsException | InputMismatchException e) {
+                    System.out.println("========================================================");
+                    System.out.println("Você não digitou um das opções acima!");
+                    System.out.println("========================================================");
+                } catch (Exception e) {
+                    System.out.println("Erro não esperado: " + e);
+                }
+            }
+        }
 
         @Override
         public Paciente menuCadastrarPaciente() {
-             boolean sair = false;
+            boolean sair = false;
             int opcao = 0;
             Paciente p = new Paciente();
             while (!sair) {
@@ -512,7 +548,7 @@ public enum TipoUsuario implements menu{
       
     }, Secretaria{
         @Override
-        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios) {
+        public void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios,List<Prontuario> lista_prontuario, Usuario usuarioLogado) {
             boolean sair = false;
         int opcao = 0;
         while (!sair) {

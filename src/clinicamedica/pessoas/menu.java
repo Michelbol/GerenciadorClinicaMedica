@@ -6,6 +6,7 @@
 package clinicamedica.pessoas;
 
 import clinicamedica.consulta.Consulta;
+import clinicamedica.prontuario.Prontuario;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface menu {
     
-    public abstract void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios);
+    public abstract void menu(List<Paciente> lista_pacientes, List<Consulta> lista_consultas, List<Usuario> lista_usuarios, List<Prontuario> lista_prontuario, Usuario usuarioLogado);
     
     public abstract void menuPaciente(List<Paciente> li);
     

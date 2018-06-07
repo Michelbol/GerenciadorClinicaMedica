@@ -8,6 +8,7 @@ package clinicamedica;
 import clinicamedica.consulta.Consulta;
 import clinicamedica.pessoas.Paciente;
 import clinicamedica.pessoas.Usuario;
+import clinicamedica.prontuario.Prontuario;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -22,6 +23,7 @@ public class ClinicaMedica {
     static List<Paciente> lista_pacientes = new ArrayList();
     static List<Consulta> lista_consultas = new ArrayList();
     static List<Usuario> usuarios = new ArrayList();
+    static List<Prontuario> lista_prontuario = new ArrayList();
 
     /**
      * @param args the command line arguments
@@ -55,6 +57,6 @@ public class ClinicaMedica {
                 System.out.println("Erro não esperado: " + e);
             }
         }
-        usuarioLogado.getTipo().menu(lista_pacientes, lista_consultas, usuarios);
+        usuarioLogado.getTipo().menu(lista_pacientes, lista_consultas, usuarios, lista_prontuario, usuarioLogado);
     }    
 }
