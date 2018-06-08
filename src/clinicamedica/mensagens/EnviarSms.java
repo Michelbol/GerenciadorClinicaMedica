@@ -5,10 +5,23 @@
  */
 package clinicamedica.mensagens;
 
+import clinicamedica.consulta.Consulta;
+import clinicamedica.pessoas.Paciente;
+
 /**
  *
  * @author miche
  */
-public class EnviarSms {
+public class EnviarSms implements EnviarMensagem{
+
+    @Override
+    public void enviarMensagem(Paciente p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean verificarNecessidade(Consulta c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -5,10 +5,23 @@
  */
 package clinicamedica.mensagens;
 
+import clinicamedica.consulta.Consulta;
+import clinicamedica.pessoas.Paciente;
+
 /**
  *
  * @author miche
  */
-public class EnviarEmail {
+public class EnviarEmail implements EnviarMensagem{
+
+    @Override
+    public void enviarMensagem(Paciente p) {
+        System.out.println("Mensagem enviada para "+ p.getNome());
+    }
+
+    @Override
+    public boolean verificarNecessidade(Consulta c) {
+        
+    }
     
 }

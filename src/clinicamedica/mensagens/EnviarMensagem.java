@@ -5,10 +5,16 @@
  */
 package clinicamedica.mensagens;
 
+import clinicamedica.consulta.Consulta;
+import clinicamedica.pessoas.Paciente;
+
 /**
  *
  * @author miche
  */
-public class EnviarMensagem {
+public interface EnviarMensagem {
     
+    public void enviarMensagem(Paciente p);
+    
+    public boolean verificarNecessidade(Consulta c);
 }
