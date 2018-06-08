@@ -7,6 +7,9 @@ package clinicamedica.prontuario;
 
 import clinicamedica.pessoas.Paciente;
 import clinicamedica.pessoas.Usuario;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -21,6 +24,7 @@ public class Prontuario {
     private String sintomas;
     private String diagnostico;
     private String prescricao;
+    private Date data;
 
     public Paciente getPaciente() {
         return paciente;
@@ -61,18 +65,19 @@ public class Prontuario {
     public void setPrescricao(String prescricao) {
         this.prescricao = prescricao;
     }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
     
     public Prontuario() {
         
     }
-    
-    public Prontuario(Paciente paciente, String sintomas, String diagnostico, String prescricao) {
-        this.paciente = paciente;
-        this.sintomas = sintomas;
-        this.diagnostico = diagnostico;
-        this.prescricao = prescricao;
-    }
-    
+
     public static Prontuario menuCadastrarProntuario(String acao, Prontuario prontuario,List<Paciente> li_paciente, Usuario usuarioLogado){
         boolean sair = false;
         int opcao = 0;
@@ -81,19 +86,21 @@ public class Prontuario {
             try {
                 System.out.println("=====================================");
                 System.out.println("Estamos em " + acao + " o Prontuario, preencha as informações abaixo e após isso escolha a opção '05 - Salavar' para gravarmos o Prontuario");
+                
                 System.out.println("01 - Paciente");
                 System.out.println("02 - Sintomas");
                 System.out.println("03 - Diagnostico");
                 System.out.println("04 - Prescrição");
-                System.out.println("05 - Salvar Prontuario");
-                System.out.println("06 - Cancelar");
+                System.out.println("05 - Data");
+                System.out.println("06 - Salvar Prontuario");
+                System.out.println("07 - Cancelar");
                 Scanner lerOpcao = new Scanner(System.in);
                 opcao = lerOpcao.nextInt();
                 prontuario = menuSalvarAtributo(opcao, prontuario, li_paciente);
-                if (opcao == 6) {
+                if (opcao == 7) {
                      return null;
                 }
-                if (opcao == 5) {
+                if (opcao == 6) {
                     if ("Cadastrar".equals(acao)) prontuario.setMedico(usuarioLogado);
                     return prontuario;
                 }
@@ -169,6 +176,13 @@ public class Prontuario {
                     System.out.println("========================================================");
                     prontuario.setPrescricao(lerOpcao.nextLine());
                     break;
+                case 5:
+                    System.out.println("========================================================");
+                    System.out.println("Digite a Data da Consulta:");
+                    System.out.println("========================================================");
+                    String data = lerOpcao.next();
+                    prontuario.setData(stringToDate(data));                    
+                    break;
             }
             System.out.println(prontuario.toString());
             return prontuario;
@@ -212,13 +226,14 @@ public class Prontuario {
                 System.out.println("01 - Receita");
                 System.out.println("02 - Atestado");
                 System.out.println("03 - Declaração de Acompanhamento");
-                System.out.println("04 - Voltar para Menu do Médico");
+                System.out.println("04 - Clientes atendidos no mês");
+                System.out.println("05 - Voltar para Menu do Médico");
                 opcao = lerOpcao.nextInt();
-                if (opcao == 4) {
+                if (opcao == 5) {
                     sair = true;
                     break;
                 }
-                if (opcao > 0 && opcao <= 3) {
+                if (opcao > 0 && opcao <= 5) {
                     switch (opcao) {
                         case 1:
                             Prontuario.menuEscolherProntuarioRelatorio(lista_prontuario,"Receita");
@@ -228,6 +243,9 @@ public class Prontuario {
                             break;
                         case 3:
                             Prontuario.menuEscolherProntuarioRelatorio(lista_prontuario,"Acompanhamento");                              
+                            break;
+                        case 4:
+                            Prontuario.gerarRelatorioAtendidosMes(lista_prontuario);                              
                             break;
                     }
                 } else {
@@ -303,13 +321,44 @@ public class Prontuario {
             System.out.println("O paciente " + prontuario.getPaciente().getNome() + " está sobre acompanhamento médico do diagnostico " + prontuario.getDiagnostico() + " pelo médico " + prontuario.getMedico().getNome());
             System.out.println("========================================================");    
         }
-        
-        
+    }
+    
+    public static void gerarRelatorioAtendidosMes(List<Prontuario> lista_prontuario){
+        List<Paciente> lista_paciente = new ArrayList();
+        Date dataAtual = new Date(System.currentTimeMillis());
+        int mesUm = dataAtual.getMonth();
+        System.out.println("========================================================");
+        System.out.println("============== Clientes Atendidos no Mês ===============");
+        System.out.println("========================================================");
+        for (Prontuario prontuario : lista_prontuario) {
+            if (mesUm == (prontuario.getData().getMonth() ) &&
+                !lista_paciente.contains(prontuario.getPaciente())){
+                lista_paciente.add(prontuario.getPaciente());
+                System.out.println(prontuario.getPaciente().getNome());
+            }
+        }
+        System.out.println("========================================================");
     }
 
     @Override
     public String toString() {
         return "Prontuario{" + "Paciente=" + paciente + ", Medico=" + medico + ", sintomas=" + sintomas + ", diagnostico=" + diagnostico + ", prescricao=" + prescricao + '}';
+    }
+    
+    public static Date stringToDate(String data) {
+        String[] g = data.split("/");
+        int dia = Integer.parseInt(g[0]);
+        int mes = Integer.parseInt(g[1]) - 1;
+        int ano = Integer.parseInt(g[2]);
+        if (ano > 99) {
+            ano = ano - 1900;
+        }
+        if (ano < 50) {
+            ano = ano + 2000;
+        }
+        Date dt = new Date(ano, mes, dia);
+        System.out.println(dt.toString());
+        return dt;
     }
     
 }
