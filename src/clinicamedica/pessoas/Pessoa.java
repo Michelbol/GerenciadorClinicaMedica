@@ -119,4 +119,8 @@ public class Pessoa {
 
     public Pessoa() {
     }  
+    
+    public boolean emailPreenchido(){
+        return (this.email.length() > 0);
+    }
 }

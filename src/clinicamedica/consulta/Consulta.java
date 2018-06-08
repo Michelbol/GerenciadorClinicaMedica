@@ -6,12 +6,8 @@
 package clinicamedica.consulta;
 
 import clinicamedica.pessoas.Paciente;
-import clinicamedica.pessoas.TipoConvenio;
 import clinicamedica.pessoas.TipoUsuario;
 import clinicamedica.pessoas.Usuario;
-import clinicamedica.pessoas.atributos.compostos.Cidade;
-import clinicamedica.pessoas.atributos.compostos.Endereco;
-import clinicamedica.pessoas.atributos.compostos.Telefone;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;

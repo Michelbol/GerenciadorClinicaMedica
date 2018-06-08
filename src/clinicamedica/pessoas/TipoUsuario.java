@@ -12,6 +12,7 @@ import clinicamedica.pessoas.atributos.compostos.Telefone;
 import clinicamedica.prontuario.Prontuario;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -971,21 +972,34 @@ public enum TipoUsuario implements menu{
     public void relatoriosConsultas(List<Consulta> lista_consultas) {
         Scanner lerOpcao = new Scanner(System.in);
         System.out.println("========================================================");
-        System.out.println("Deseja que apareça as consultas cujo Paciente tem E-mail?");
+        System.out.println("Deseja que apareça as consultas cujo Paciente não tem E-mail?");
         System.out.println("1 - Sim ou 2 - Não");
         System.out.println("========================================================");
         int email = lerOpcao.nextInt();
         System.out.println("========================================================");
-        System.out.println("Deseja que apareça as consultas cujo Paciente tem Celular?");
+        System.out.println("Deseja que apareça as consultas cujo Paciente não tem Celular?");
         System.out.println("1 - Sim ou 2 - Não");
         System.out.println("========================================================");
         int celular = lerOpcao.nextInt();
-        
+        Calendar calendar = Calendar.getInstance();
+        Date data = new Date(System.currentTimeMillis());
+        calendar.setTime(data);  
+        calendar.add(Calendar.HOUR_OF_DAY, 24);  
+        Date amanha = calendar.getTime(); 
+        amanha.setHours(0);
+        amanha.setMinutes(0);
+        amanha.setSeconds(0);
+        calendar.setTime(data);  
+        calendar.add(Calendar.HOUR_OF_DAY, 24);
+        Date amanha_noite = calendar.getTime(); 
+        amanha_noite.setHours(23);
+        amanha_noite.setMinutes(59);
         System.out.println("=================Inicio Relatório================================Inicio Relatório=================================Inicio Relatório================================================================");
         int i = 0;
         for (Consulta c : lista_consultas) {
-            System.out.println(c.getDataHora() +" "+ Date.from(Instant.MIN));
-            if((c.getDataHora() == Date.from(Instant.MIN)) && ((email == 1) ? ((c.getPaciente().getCelular().preenchido()) ? true : false) : true)){
+            if((c.getDataHora().after(amanha) && c.getDataHora().before(amanha_noite)) && 
+                    ((celular == 1) ? true : c.getPaciente().getCelular().preenchido()) && 
+                    ((email == 1) ? true : c.getPaciente().emailPreenchido())){
                 System.out.println("Numero: " + i + "| Horário Consulta: " + c.getDataHora()+"| Médico: "+ c.getMedico().getNome()+"| Paciente: "+c.getPaciente().getNome());
             }
             i += 1;

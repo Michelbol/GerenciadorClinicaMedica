@@ -83,8 +83,6 @@ public class Telefone {
         return te;
     }
     public boolean preenchido(){
-        String telefone;
-        
-        return true;
+        return (this.prefixo.length() > 0 && this.sufixo.length() > 0);
     }
 }
