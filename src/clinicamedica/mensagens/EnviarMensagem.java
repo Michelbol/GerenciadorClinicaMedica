@@ -7,6 +7,8 @@ package clinicamedica.mensagens;
 
 import clinicamedica.consulta.Consulta;
 import clinicamedica.pessoas.Paciente;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,7 +16,30 @@ import clinicamedica.pessoas.Paciente;
  */
 public interface EnviarMensagem {
     
-    public void enviarMensagem(Paciente p);
+    public static void enviarSMS(List<Consulta> lista_consulta){
+        Date dataAtual = new Date(System.currentTimeMillis());
+        
+        for(Consulta c: lista_consulta){
+            if (c.getDataHora().getDay()==dataAtual.getDay()+1){
+                SMS sms = new SMS();
+                sms.setMensagem("Aviso! Amanhã o paciente " + c.getPaciente().getNome() + " possui uma consulta marcada, favor ligar para a clinica e confirmar a consulta.");
+                sms.setCelular(c.getPaciente().getCelular());
+                sms.enviarSms();
+            }
+        }
+    }
     
-    public boolean verificarNecessidade(Consulta c);
+    public static void enviarEmail(List<Consulta> lista_consulta){
+        Date dataAtual = new Date(System.currentTimeMillis());
+        
+        for(Consulta c: lista_consulta){
+            if (c.getDataHora().getDay()==dataAtual.getDay()+1){
+                Email email = new Email();
+                email.setMensagem("Aviso! Amanhã o paciente " + c.getPaciente().getNome() + " possui uma consulta marcada, favor ligar para a clinica e confirmar a consulta.");
+                email.setEmail(c.getPaciente().getEmail());
+                email.enviarSms();    
+            }
+        }
+    }
+
 }

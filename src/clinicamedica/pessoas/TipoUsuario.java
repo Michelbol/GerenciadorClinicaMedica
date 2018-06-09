@@ -6,6 +6,7 @@
 package clinicamedica.pessoas;
 
 import clinicamedica.consulta.Consulta;
+import clinicamedica.mensagens.EnviarMensagem;
 import clinicamedica.pessoas.atributos.compostos.Cidade;
 import clinicamedica.pessoas.atributos.compostos.Endereco;
 import clinicamedica.pessoas.atributos.compostos.Telefone;
@@ -34,61 +35,19 @@ public enum TipoUsuario implements menu{
                     System.out.println("O que deseja fazer?\n");
                     System.out.println("01 - Cadastro de Pacientes");
                     System.out.println("02 - Cadastro de Prontuários Pacientes");
-                    System.out.println("03 - Relatórios do Médico");
-                    System.out.println("04 - Sair do Sistema");
+                    System.out.println("03 - Sair do Sistema");
                     opcao = lerOpcao.nextInt();
-                    if (opcao == 4) {
+                    if (opcao == 3) {
                         sair = true;
                         break;
                     }
-                    if (opcao > 0 && opcao <= 3) {
+                    if (opcao > 0 && opcao <= 2) {
                         switch (opcao) {
                             case 1:
                                 menuPaciente(lista_pacientes);
                                 break;
                             case 2:
                                 menuProntuario(lista_prontuario,lista_pacientes,usuarioLogado);
-                                break;
-                            case 3:
-                                menuRelatorioMedico(lista_consultas,lista_prontuario);
-                                //relatoriosConsultas(lista_consultas);
-                                break;
-                        }
-                    } else {
-                        throw new IndexOutOfBoundsException();
-                    }
-                } catch (IndexOutOfBoundsException | InputMismatchException e) {
-                    System.out.println("========================================================");
-                    System.out.println("Você não digitou um das opções!");
-                    System.out.println("========================================================");
-                } catch (Exception e) {
-                    System.out.println("Erro não esperado: " + e);
-                }
-            }
-        }
-        
-        public void menuRelatorioMedico(List<Consulta> lista_consultas, List<Prontuario> lista_prontuario){
-            boolean sair = false;
-            int opcao = 0;
-            while (!sair) {
-                try {
-                    Scanner lerOpcao = new Scanner(System.in);
-                    System.out.println("Qual relatório você deseja consultar: \n");
-                    System.out.println("01 - Clientes Atendimentos no Mês");
-                    System.out.println("02 - Relatório de Consulta");
-                    System.out.println("03 - Voltar para Menu do Médico");
-                    opcao = lerOpcao.nextInt();
-                    if (opcao == 3) {
-                        sair = true;
-                        break;
-                    }
-                    if (opcao > 0 && opcao <= 3) {
-                        switch (opcao) {
-                            case 1:
-                                //gerarRelatorioClientesAtendidosMes(lista_consultas);
-                                break;
-                            case 2:
-                                //gerarRelatorioClientesAtendidosMes(lista_consultas);
                                 break;
                         }
                     } else {
@@ -599,13 +558,15 @@ public enum TipoUsuario implements menu{
                 System.out.println("01 - Cadastro de Pacientes");
                 System.out.println("02 - Cadastro de Consultas Médicas");
                 System.out.println("03 - Relatórios de Consultas Médicas");
-                System.out.println("04 - Sair do Sistema");
+                System.out.println("04 - Enviar SMS para Pacientes de Consultas de Amanhã");
+                System.out.println("05 - Enviar Emails para Pacientes de Consultas de Amanhã");
+                System.out.println("06 - Sair do Sistema");
                 opcao = lerOpcao.nextInt();
-                if (opcao == 4) {
+                if (opcao == 6) {
                     sair = true;
                     break;
                 }
-                if (opcao > 0 && opcao <= 3) {
+                if (opcao > 0 && opcao <= 5) {
                     switch (opcao) {
                         case 1:
                             menuPaciente(lista_pacientes);
@@ -615,6 +576,12 @@ public enum TipoUsuario implements menu{
                             break;
                         case 3:
                             relatoriosConsultas(lista_consultas);
+                            break;
+                        case 4:
+                            EnviarMensagem.enviarEmail(lista_consultas);
+                            break;
+                        case 5:
+                            EnviarMensagem.enviarSMS(lista_consultas);
                             break;
                     }
                 } else {
